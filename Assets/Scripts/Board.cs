@@ -20,6 +20,7 @@ public class Board : MonoBehaviour
     private string[] solutions;
     private string[] validwords;//we pick a random soln and compare it against when we guess. guesses can be any of the valid word.
 
+    private string word;
     //to keep track of which tile we are at
     private int rowindex;
     private int columnindex;
@@ -32,6 +33,7 @@ public class Board : MonoBehaviour
     private void Start()
     {
         loaddata();
+        setrandomword();
     }
 
     private void loaddata()
@@ -41,6 +43,12 @@ public class Board : MonoBehaviour
 
         textfile = Resources.Load("official_wordle_common") as TextAsset;
         solutions = textfile.text.Split("\n");
+    }
+
+    private void setrandomword()
+    {
+        word = solutions[UnityEngine.Random.Range(0, solutions.Length)];
+        word = word.ToLower().Trim();
     }
     private void Update()//for inputs
     {
@@ -73,6 +81,30 @@ public class Board : MonoBehaviour
 
     private void submitrow(Row row)
     {
-        //...we need to pick a random word from  a dic and compare the guess
+        for(int i=0; i<row.tiles.Length; i++)
+        {
+            Tile tile = row.tiles[i];
+            if(tile.letter == word[i])
+            {
+                //correct
+            }
+            else if(word.Contains(tile.letter))
+            {
+                //incorrect
+            }
+            else
+            {
+                //incorrect
+            }
+
+            
+        }
+        rowindex++;
+        columnindex = 0;
+
+        if(rowindex >= rows.Length)
+        {
+            enabled = false; 
+        }
     }
 }
